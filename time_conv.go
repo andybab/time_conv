@@ -1,10 +1,9 @@
-package main
+package time_conv
 
 import (
 	"fmt"
-	"os"
-	"strconv"
 	"strings"
+	"strconv"
 )
 
 var MILLIS = 0
@@ -51,12 +50,12 @@ func getInstruction(rawInstruction string) (instruction int, err error) {
 	return
 }
 
-func main() {
+func Convert(args *[]string) (int, error) {
 	fromInstruct, toInstruct := -1, -1
 	var instruct *int = &fromInstruct
 	requested_num := 1 //number to be converted
 
-	for _, value := range os.Args[1:] {
+	for _, value := range *args {
 		num, err := strconv.Atoi(value)
 
 		if nil == err {
@@ -70,8 +69,7 @@ func main() {
 		} else if instr, err := getInstruction(value); nil == err {
 			*instruct = instr
 		} else {
-			fmt.Println(err)
-			return
+			return 0, err
 		}
 	}
 
@@ -93,5 +91,5 @@ func main() {
 		}
 	}
 
-	fmt.Println(result)
+	return result, nil
 }
